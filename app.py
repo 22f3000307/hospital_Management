@@ -5,12 +5,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime, date
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'ehospital_dev_key')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ehospital.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+a = Flask(__name__)
+a.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'ehospital_dev_key')
+a.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ehospital.db'
+a.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(a)
 
 # Models
 class User(db.Model):
@@ -63,48 +63,48 @@ class Rec(db.Model):
     doc = db.relationship('Doc', backref='recs')
 
 # Decorators
-def login_req(f):
+def lr(f):
     @wraps(f)
-    def dec(*args, **kwargs):
+    def w(*args, **kwargs):
         if 'uid' not in session:
             flash('Please login first', 'error')
             return redirect(url_for('login'))
         return f(*args, **kwargs)
-    return dec
+    return w
 
-def admin_req(f):
+def ar(f):
     @wraps(f)
-    def dec(*args, **kwargs):
+    def w(*args, **kwargs):
         if 'uid' not in session or session.get('rl') != 'admin':
             flash('Admin access required', 'error')
             return redirect(url_for('home'))
         return f(*args, **kwargs)
-    return dec
+    return w
 
-def doc_req(f):
+def dr(f):
     @wraps(f)
-    def dec(*args, **kwargs):
+    def w(*args, **kwargs):
         if 'uid' not in session or session.get('rl') != 'doctor':
             flash('Doctor access required', 'error')
             return redirect(url_for('home'))
         return f(*args, **kwargs)
-    return dec
+    return w
 
-def pat_req(f):
+def pr(f):
     @wraps(f)
-    def dec(*args, **kwargs):
+    def w(*args, **kwargs):
         if 'uid' not in session or session.get('rl') != 'patient':
             flash('Patient access required', 'error')
             return redirect(url_for('home'))
         return f(*args, **kwargs)
-    return dec
+    return w
 
 # Routes
-@app.route('/')
+@a.route('/')
 def home():
     return render_template('home.html')
 
-@app.route('/login', methods=['GET', 'POST'])
+@a.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         un = request.form.get('un')
@@ -125,7 +125,7 @@ def login():
         flash('Invalid credentials', 'error')
     return render_template('login.html')
 
-@app.route('/register', methods=['GET', 'POST'])
+@a.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         un = request.form.get('un')
@@ -165,29 +165,29 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html')
 
-@app.route('/logout')
+@a.route('/logout')
 def logout():
     session.clear()
     flash('Logged out successfully', 'success')
     return redirect(url_for('home'))
 
 # Admin Routes
-@app.route('/admin')
-@admin_req
+@a.route('/admin')
+@ar
 def admin_dash():
     docs = Doc.query.all()
     pats = Pat.query.all()
     apts = Apt.query.all()
     return render_template('admin/dash.html', docs=docs, pats=pats, apts=apts)
 
-@app.route('/admin/docs')
-@admin_req
+@a.route('/admin/docs')
+@ar
 def admin_docs():
     docs = Doc.query.all()
     return render_template('admin/docs.html', docs=docs)
 
-@app.route('/admin/doc/add', methods=['GET', 'POST'])
-@admin_req
+@a.route('/admin/doc/add', methods=['GET', 'POST'])
+@ar
 def admin_doc_add():
     if request.method == 'POST':
         un = request.form.get('un')
@@ -225,8 +225,8 @@ def admin_doc_add():
         return redirect(url_for('admin_docs'))
     return render_template('admin/doc_form.html', doc=None)
 
-@app.route('/admin/doc/edit/<int:id>', methods=['GET', 'POST'])
-@admin_req
+@a.route('/admin/doc/edit/<int:id>', methods=['GET', 'POST'])
+@ar
 def admin_doc_edit(id):
     d = Doc.query.get_or_404(id)
     if request.method == 'POST':
@@ -248,8 +248,8 @@ def admin_doc_edit(id):
         return redirect(url_for('admin_docs'))
     return render_template('admin/doc_form.html', doc=d)
 
-@app.route('/admin/doc/delete/<int:id>')
-@admin_req
+@a.route('/admin/doc/delete/<int:id>')
+@ar
 def admin_doc_delete(id):
     d = Doc.query.get_or_404(id)
     u = d.user
@@ -261,41 +261,41 @@ def admin_doc_delete(id):
     flash('Doctor deleted successfully', 'success')
     return redirect(url_for('admin_docs'))
 
-@app.route('/admin/pats')
-@admin_req
+@a.route('/admin/pats')
+@ar
 def admin_pats():
     pats = Pat.query.all()
     return render_template('admin/pats.html', pats=pats)
 
-@app.route('/admin/pat/view/<int:id>')
-@admin_req
+@a.route('/admin/pat/view/<int:id>')
+@ar
 def admin_pat_view(id):
     p = Pat.query.get_or_404(id)
     return render_template('admin/pat_view.html', pat=p)
 
-@app.route('/admin/apts')
-@admin_req
+@a.route('/admin/apts')
+@ar
 def admin_apts():
     apts = Apt.query.all()
     return render_template('admin/apts.html', apts=apts)
 
 # Doctor Routes
-@app.route('/doctor')
-@doc_req
+@a.route('/doctor')
+@dr
 def doc_dash():
     d = Doc.query.filter_by(uid=session['uid']).first()
     apts = Apt.query.filter_by(did=d.id).all() if d else []
     return render_template('doctor/dash.html', doc=d, apts=apts)
 
-@app.route('/doctor/apts')
-@doc_req
+@a.route('/doctor/apts')
+@dr
 def doc_apts():
     d = Doc.query.filter_by(uid=session['uid']).first()
     apts = Apt.query.filter_by(did=d.id).all() if d else []
     return render_template('doctor/apts.html', apts=apts)
 
-@app.route('/doctor/apt/<int:id>/approve')
-@doc_req
+@a.route('/doctor/apt/<int:id>/approve')
+@dr
 def doc_apt_approve(id):
     a = Apt.query.get_or_404(id)
     a.st = 'approved'
@@ -303,8 +303,8 @@ def doc_apt_approve(id):
     flash('Appointment approved', 'success')
     return redirect(url_for('doc_apts'))
 
-@app.route('/doctor/apt/<int:id>/complete')
-@doc_req
+@a.route('/doctor/apt/<int:id>/complete')
+@dr
 def doc_apt_complete(id):
     a = Apt.query.get_or_404(id)
     a.st = 'completed'
@@ -312,8 +312,8 @@ def doc_apt_complete(id):
     flash('Appointment completed', 'success')
     return redirect(url_for('doc_apts'))
 
-@app.route('/doctor/apt/<int:id>/cancel')
-@doc_req
+@a.route('/doctor/apt/<int:id>/cancel')
+@dr
 def doc_apt_cancel(id):
     a = Apt.query.get_or_404(id)
     a.st = 'cancelled'
@@ -321,15 +321,15 @@ def doc_apt_cancel(id):
     flash('Appointment cancelled', 'success')
     return redirect(url_for('doc_apts'))
 
-@app.route('/doctor/recs')
-@doc_req
+@a.route('/doctor/recs')
+@dr
 def doc_recs():
     d = Doc.query.filter_by(uid=session['uid']).first()
     recs = Rec.query.filter_by(did=d.id).all() if d else []
     return render_template('doctor/recs.html', recs=recs)
 
-@app.route('/doctor/rec/add/<int:pid>', methods=['GET', 'POST'])
-@doc_req
+@a.route('/doctor/rec/add/<int:pid>', methods=['GET', 'POST'])
+@dr
 def doc_rec_add(pid):
     p = Pat.query.get_or_404(pid)
     d = Doc.query.filter_by(uid=session['uid']).first()
@@ -344,8 +344,8 @@ def doc_rec_add(pid):
         return redirect(url_for('doc_recs'))
     return render_template('doctor/rec_form.html', pat=p, rec=None)
 
-@app.route('/doctor/pats')
-@doc_req
+@a.route('/doctor/pats')
+@dr
 def doc_pats():
     d = Doc.query.filter_by(uid=session['uid']).first()
     apts = Apt.query.filter_by(did=d.id).all() if d else []
@@ -353,8 +353,8 @@ def doc_pats():
     pats = Pat.query.filter(Pat.id.in_(pids)).all() if pids else []
     return render_template('doctor/pats.html', pats=pats)
 
-@app.route('/doctor/profile', methods=['GET', 'POST'])
-@doc_req
+@a.route('/doctor/profile', methods=['GET', 'POST'])
+@dr
 def doc_profile():
     d = Doc.query.filter_by(uid=session['uid']).first()
     if request.method == 'POST':
@@ -370,22 +370,22 @@ def doc_profile():
     return render_template('doctor/profile.html', doc=d)
 
 # Patient Routes
-@app.route('/patient')
-@pat_req
+@a.route('/patient')
+@pr
 def pat_dash():
     p = Pat.query.filter_by(uid=session['uid']).first()
     apts = Apt.query.filter_by(pid=p.id).all() if p else []
     recs = Rec.query.filter_by(pid=p.id).all() if p else []
     return render_template('patient/dash.html', pat=p, apts=apts, recs=recs)
 
-@app.route('/patient/docs')
-@pat_req
+@a.route('/patient/docs')
+@pr
 def pat_docs():
     docs = Doc.query.all()
     return render_template('patient/docs.html', docs=docs)
 
-@app.route('/patient/apt/book/<int:did>', methods=['GET', 'POST'])
-@pat_req
+@a.route('/patient/apt/book/<int:did>', methods=['GET', 'POST'])
+@pr
 def pat_apt_book(did):
     d = Doc.query.get_or_404(did)
     p = Pat.query.filter_by(uid=session['uid']).first()
@@ -405,15 +405,15 @@ def pat_apt_book(did):
         return redirect(url_for('pat_apts'))
     return render_template('patient/apt_form.html', doc=d)
 
-@app.route('/patient/apts')
-@pat_req
+@a.route('/patient/apts')
+@pr
 def pat_apts():
     p = Pat.query.filter_by(uid=session['uid']).first()
     apts = Apt.query.filter_by(pid=p.id).all() if p else []
     return render_template('patient/apts.html', apts=apts)
 
-@app.route('/patient/apt/cancel/<int:id>')
-@pat_req
+@a.route('/patient/apt/cancel/<int:id>')
+@pr
 def pat_apt_cancel(id):
     a = Apt.query.get_or_404(id)
     a.st = 'cancelled'
@@ -421,15 +421,15 @@ def pat_apt_cancel(id):
     flash('Appointment cancelled', 'success')
     return redirect(url_for('pat_apts'))
 
-@app.route('/patient/recs')
-@pat_req
+@a.route('/patient/recs')
+@pr
 def pat_recs():
     p = Pat.query.filter_by(uid=session['uid']).first()
     recs = Rec.query.filter_by(pid=p.id).all() if p else []
     return render_template('patient/recs.html', recs=recs)
 
-@app.route('/patient/profile', methods=['GET', 'POST'])
-@pat_req
+@a.route('/patient/profile', methods=['GET', 'POST'])
+@pr
 def pat_profile():
     p = Pat.query.filter_by(uid=session['uid']).first()
     if request.method == 'POST':
@@ -451,7 +451,7 @@ def pat_profile():
 
 # Initialize DB and create admin
 def init_db():
-    with app.app_context():
+    with a.app_context():
         db.create_all()
         if not User.query.filter_by(un='admin').first():
             admin = User(un='admin', pw=generate_password_hash('admin123'), nm='Administrator', em='admin@ehospital.com', ph='1234567890', rl='admin')
@@ -460,4 +460,4 @@ def init_db():
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true')
+    a.run(debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true')
