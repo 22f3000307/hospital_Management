@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Patient Dashboard - E Hospital{% endblock %}
+
+{% block content %}
+<h2>Patient Dashboard</h2>
+
+<div class="welcome-card">
+    <h3>Welcome, {{ session.get('nm') }}</h3>
+</div>
+
+<div class="dashboard-stats">
+    <div class="stat-card">
+        <h3>{{ apts|selectattr('st', 'equalto', 'pending')|list|length }}</h3>
+        <p>Pending Appointments</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ apts|selectattr('st', 'equalto', 'approved')|list|length }}</h3>
+        <p>Approved Appointments</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ recs|length }}</h3>
+        <p>Medical Records</p>
+    </div>
+</div>
+
+<div class="quick-actions">
+    <h3>Quick Actions</h3>
+    <a href="{{ url_for('pat_docs') }}" class="btn btn-primary">Find Doctors</a>
+    <a href="{{ url_for('pat_apts') }}" class="btn btn-secondary">View Appointments</a>
+    <a href="{{ url_for('pat_recs') }}" class="btn btn-secondary">View Records</a>
+</div>
+
+<h3>Upcoming Appointments</h3>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in apts[:5] %}
+        <tr>
+            <td>{{ a.doc.user.nm }}</td>
+            <td>{{ a.dt }}</td>
+            <td>{{ a.tm }}</td>
+            <td><span class="status status-{{ a.st }}">{{ a.st }}</span></td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4">No appointments</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

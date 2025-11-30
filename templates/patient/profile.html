@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile - E Hospital{% endblock %}
+
+{% block content %}
+<h2>My Profile</h2>
+
+<div class="form-container">
+    <form method="POST">
+        <div class="form-group">
+            <label for="nm">Full Name</label>
+            <input type="text" id="nm" name="nm" value="{{ pat.user.nm }}" required>
+        </div>
+        <div class="form-group">
+            <label for="ph">Phone</label>
+            <input type="text" id="ph" name="ph" value="{{ pat.user.ph }}">
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" value="{{ pat.dob }}">
+        </div>
+        <div class="form-group">
+            <label for="gen">Gender</label>
+            <select id="gen" name="gen">
+                <option value="">Select</option>
+                <option value="Male" {% if pat.gen == 'Male' %}selected{% endif %}>Male</option>
+                <option value="Female" {% if pat.gen == 'Female' %}selected{% endif %}>Female</option>
+                <option value="Other" {% if pat.gen == 'Other' %}selected{% endif %}>Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="bg">Blood Group</label>
+            <select id="bg" name="bg">
+                <option value="">Select</option>
+                <option value="A+" {% if pat.bg == 'A+' %}selected{% endif %}>A+</option>
+                <option value="A-" {% if pat.bg == 'A-' %}selected{% endif %}>A-</option>
+                <option value="B+" {% if pat.bg == 'B+' %}selected{% endif %}>B+</option>
+                <option value="B-" {% if pat.bg == 'B-' %}selected{% endif %}>B-</option>
+                <option value="AB+" {% if pat.bg == 'AB+' %}selected{% endif %}>AB+</option>
+                <option value="AB-" {% if pat.bg == 'AB-' %}selected{% endif %}>AB-</option>
+                <option value="O+" {% if pat.bg == 'O+' %}selected{% endif %}>O+</option>
+                <option value="O-" {% if pat.bg == 'O-' %}selected{% endif %}>O-</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="addr">Address</label>
+            <textarea id="addr" name="addr" rows="3">{{ pat.addr }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
+{% endblock %}

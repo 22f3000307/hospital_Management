@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - E Hospital{% endblock %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="dashboard-stats">
+    <div class="stat-card">
+        <h3>{{ docs|length }}</h3>
+        <p>Doctors</p>
+        <a href="{{ url_for('admin_docs') }}">View All</a>
+    </div>
+    <div class="stat-card">
+        <h3>{{ pats|length }}</h3>
+        <p>Patients</p>
+        <a href="{{ url_for('admin_pats') }}">View All</a>
+    </div>
+    <div class="stat-card">
+        <h3>{{ apts|length }}</h3>
+        <p>Appointments</p>
+        <a href="{{ url_for('admin_apts') }}">View All</a>
+    </div>
+</div>
+
+<div class="quick-actions">
+    <h3>Quick Actions</h3>
+    <a href="{{ url_for('admin_doc_add') }}" class="btn btn-primary">Add Doctor</a>
+</div>
+{% endblock %}

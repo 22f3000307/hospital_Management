@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}All Appointments - E Hospital{% endblock %}
+
+{% block content %}
+<h2>All Appointments</h2>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in apts %}
+        <tr>
+            <td>{{ a.id }}</td>
+            <td>{{ a.pat.user.nm }}</td>
+            <td>{{ a.doc.user.nm }}</td>
+            <td>{{ a.dt }}</td>
+            <td>{{ a.tm }}</td>
+            <td><span class="status status-{{ a.st }}">{{ a.st }}</span></td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6">No appointments found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

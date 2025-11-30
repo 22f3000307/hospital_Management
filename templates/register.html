@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - E Hospital{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Patient Registration</h2>
+    <form method="POST" action="{{ url_for('register') }}">
+        <input type="hidden" name="rl" value="patient">
+        
+        <div class="form-group">
+            <label for="un">Username</label>
+            <input type="text" id="un" name="un" required>
+        </div>
+        <div class="form-group">
+            <label for="pw">Password</label>
+            <input type="password" id="pw" name="pw" required>
+        </div>
+        <div class="form-group">
+            <label for="nm">Full Name</label>
+            <input type="text" id="nm" name="nm" required>
+        </div>
+        <div class="form-group">
+            <label for="em">Email</label>
+            <input type="email" id="em" name="em" required>
+        </div>
+        <div class="form-group">
+            <label for="ph">Phone</label>
+            <input type="text" id="ph" name="ph">
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob">
+        </div>
+        <div class="form-group">
+            <label for="gen">Gender</label>
+            <select id="gen" name="gen">
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="bg">Blood Group</label>
+            <select id="bg" name="bg">
+                <option value="">Select</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="addr">Address</label>
+            <textarea id="addr" name="addr" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+</div>
+{% endblock %}
