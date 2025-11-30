@@ -44,7 +44,7 @@
                 <option value="Gynecology" {% if doc and doc.sp == 'Gynecology' %}selected{% endif %}>Gynecology</option>
                 <option value="Psychiatry" {% if doc and doc.sp == 'Psychiatry' %}selected{% endif %}>Psychiatry</option>
                 <option value="Dentistry" {% if doc and doc.sp == 'Dentistry' %}selected{% endif %}>Dentistry</option>
-                <option value="Other" {% if doc and doc.sp not in ['General Medicine', 'Cardiology', 'Dermatology', 'Orthopedics', 'Pediatrics', 'Neurology', 'Ophthalmology', 'ENT', 'Gynecology', 'Psychiatry', 'Dentistry'] and doc.sp %}selected{% endif %}>Other</option>
+                <option value="Other" {% if doc and doc.sp == 'Other' %}selected{% endif %}>Other</option>
             </select>
         </div>
         <div class="form-group">
