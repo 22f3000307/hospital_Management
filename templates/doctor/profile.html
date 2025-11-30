@@ -1,37 +1,58 @@
 {% extends 'base.html' %}
 
-{% block title %}My Profile - E Hospital{% endblock %}
+{% block title %}My Profile - Swasthub{% endblock %}
 
 {% block content %}
-<h2>My Profile</h2>
+<h2><i class="fas fa-user-cog"></i> My Profile</h2>
 
 <div class="form-container">
     <form method="POST">
         <div class="form-group">
-            <label for="nm">Full Name</label>
+            <label for="nm"><i class="fas fa-id-card"></i> Full Name</label>
             <input type="text" id="nm" name="nm" value="{{ doc.user.nm }}" required>
         </div>
         <div class="form-group">
-            <label for="ph">Phone</label>
+            <label for="ph"><i class="fas fa-phone"></i> Phone</label>
             <input type="text" id="ph" name="ph" value="{{ doc.user.ph }}">
         </div>
         <div class="form-group">
-            <label for="sp">Specialization</label>
-            <input type="text" id="sp" name="sp" value="{{ doc.sp }}" required>
+            <label for="sp"><i class="fas fa-stethoscope"></i> Specialization</label>
+            <select id="sp" name="sp" required>
+                <option value="">Select Specialization</option>
+                <option value="General Medicine" {% if doc.sp == 'General Medicine' %}selected{% endif %}>General Medicine</option>
+                <option value="Cardiology" {% if doc.sp == 'Cardiology' %}selected{% endif %}>Cardiology</option>
+                <option value="Dermatology" {% if doc.sp == 'Dermatology' %}selected{% endif %}>Dermatology</option>
+                <option value="Orthopedics" {% if doc.sp == 'Orthopedics' %}selected{% endif %}>Orthopedics</option>
+                <option value="Pediatrics" {% if doc.sp == 'Pediatrics' %}selected{% endif %}>Pediatrics</option>
+                <option value="Neurology" {% if doc.sp == 'Neurology' %}selected{% endif %}>Neurology</option>
+                <option value="Ophthalmology" {% if doc.sp == 'Ophthalmology' %}selected{% endif %}>Ophthalmology</option>
+                <option value="ENT" {% if doc.sp == 'ENT' %}selected{% endif %}>ENT</option>
+                <option value="Gynecology" {% if doc.sp == 'Gynecology' %}selected{% endif %}>Gynecology</option>
+                <option value="Psychiatry" {% if doc.sp == 'Psychiatry' %}selected{% endif %}>Psychiatry</option>
+                <option value="Dentistry" {% if doc.sp == 'Dentistry' %}selected{% endif %}>Dentistry</option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="exp">Experience (years)</label>
-            <input type="number" id="exp" name="exp" value="{{ doc.exp }}">
+            <label for="exp"><i class="fas fa-briefcase"></i> Experience (years)</label>
+            <input type="number" id="exp" name="exp" value="{{ doc.exp }}" min="0">
         </div>
         <div class="form-group">
-            <label for="fee">Consultation Fee</label>
-            <input type="number" id="fee" name="fee" step="0.01" value="{{ doc.fee }}">
+            <label for="fee"><i class="fas fa-dollar-sign"></i> Consultation Fee</label>
+            <input type="number" id="fee" name="fee" step="0.01" value="{{ doc.fee }}" min="0">
         </div>
         <div class="form-group">
-            <label for="av">Availability</label>
-            <input type="text" id="av" name="av" value="{{ doc.av }}" placeholder="e.g., Mon-Fri 9AM-5PM">
+            <label for="av"><i class="fas fa-clock"></i> Availability</label>
+            <select id="av" name="av">
+                <option value="">Select Availability</option>
+                <option value="Mon-Fri 9AM-5PM" {% if doc.av == 'Mon-Fri 9AM-5PM' %}selected{% endif %}>Mon-Fri 9AM-5PM</option>
+                <option value="Mon-Sat 9AM-6PM" {% if doc.av == 'Mon-Sat 9AM-6PM' %}selected{% endif %}>Mon-Sat 9AM-6PM</option>
+                <option value="Mon-Fri 10AM-4PM" {% if doc.av == 'Mon-Fri 10AM-4PM' %}selected{% endif %}>Mon-Fri 10AM-4PM</option>
+                <option value="Mon-Wed 9AM-3PM" {% if doc.av == 'Mon-Wed 9AM-3PM' %}selected{% endif %}>Mon-Wed 9AM-3PM</option>
+                <option value="Weekends Only" {% if doc.av == 'Weekends Only' %}selected{% endif %}>Weekends Only</option>
+                <option value="24/7 Available" {% if doc.av == '24/7 Available' %}selected{% endif %}>24/7 Available</option>
+            </select>
         </div>
-        <button type="submit" class="btn btn-primary">Update Profile</button>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update Profile</button>
     </form>
 </div>
 {% endblock %}

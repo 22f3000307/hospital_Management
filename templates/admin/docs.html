@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Manage Doctors - E Hospital{% endblock %}
+{% block title %}Manage Doctors - Swasthub{% endblock %}
 
 {% block content %}
-<h2>Manage Doctors</h2>
+<h2><i class="fas fa-user-md"></i> Manage Doctors</h2>
 
-<a href="{{ url_for('admin_doc_add') }}" class="btn btn-primary">Add New Doctor</a>
+<a href="{{ url_for('admin_doc_add') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Doctor</a>
 
 <table class="data-table">
     <thead>
@@ -23,19 +23,19 @@
         {% for d in docs %}
         <tr>
             <td>{{ d.id }}</td>
-            <td>{{ d.user.nm }}</td>
+            <td><i class="fas fa-user-md"></i> {{ d.user.nm }}</td>
             <td>{{ d.user.em }}</td>
             <td>{{ d.sp }}</td>
             <td>{{ d.exp }} years</td>
             <td>{{ d.fee }}</td>
             <td>
-                <a href="{{ url_for('admin_doc_edit', id=d.id) }}" class="btn btn-small">Edit</a>
-                <a href="{{ url_for('admin_doc_delete', id=d.id) }}" class="btn btn-small btn-danger">Delete</a>
+                <a href="{{ url_for('admin_doc_edit', id=d.id) }}" class="btn btn-small btn-secondary"><i class="fas fa-edit"></i> Edit</a>
+                <a href="{{ url_for('admin_doc_delete', id=d.id) }}" class="btn btn-small btn-danger"><i class="fas fa-trash"></i> Delete</a>
             </td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="7">No doctors found</td>
+            <td colspan="7" style="text-align: center;"><i class="fas fa-info-circle"></i> No doctors found</td>
         </tr>
         {% endfor %}
     </tbody>

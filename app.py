@@ -454,7 +454,7 @@ def init_db():
     with a.app_context():
         db.create_all()
         if not User.query.filter_by(un='admin').first():
-            admin = User(un='admin', pw=generate_password_hash('admin123'), nm='Administrator', em='admin@ehospital.com', ph='1234567890', rl='admin')
+            admin = User(un='admin', pw=generate_password_hash('admin123'), nm='Administrator', em='admin@swasthub.com', ph='1234567890', rl='admin')
             db.session.add(admin)
             db.session.commit()
 

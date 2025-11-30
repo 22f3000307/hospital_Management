@@ -1,50 +1,50 @@
 {% extends 'base.html' %}
 
-{% block title %}Register - E Hospital{% endblock %}
+{% block title %}Register - Swasthub{% endblock %}
 
 {% block content %}
 <div class="form-container">
-    <h2>Patient Registration</h2>
+    <h2><i class="fas fa-user-plus"></i> Patient Registration</h2>
     <form method="POST" action="{{ url_for('register') }}">
         <input type="hidden" name="rl" value="patient">
         
         <div class="form-group">
-            <label for="un">Username</label>
-            <input type="text" id="un" name="un" required>
+            <label for="un"><i class="fas fa-user"></i> Username</label>
+            <input type="text" id="un" name="un" placeholder="Choose a username" required>
         </div>
         <div class="form-group">
-            <label for="pw">Password</label>
-            <input type="password" id="pw" name="pw" required>
+            <label for="pw"><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="pw" name="pw" placeholder="Create a password" required>
         </div>
         <div class="form-group">
-            <label for="nm">Full Name</label>
-            <input type="text" id="nm" name="nm" required>
+            <label for="nm"><i class="fas fa-id-card"></i> Full Name</label>
+            <input type="text" id="nm" name="nm" placeholder="Enter your full name" required>
         </div>
         <div class="form-group">
-            <label for="em">Email</label>
-            <input type="email" id="em" name="em" required>
+            <label for="em"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="em" name="em" placeholder="Enter your email" required>
         </div>
         <div class="form-group">
-            <label for="ph">Phone</label>
-            <input type="text" id="ph" name="ph">
+            <label for="ph"><i class="fas fa-phone"></i> Phone</label>
+            <input type="text" id="ph" name="ph" placeholder="Enter your phone number">
         </div>
         <div class="form-group">
-            <label for="dob">Date of Birth</label>
+            <label for="dob"><i class="fas fa-calendar"></i> Date of Birth</label>
             <input type="date" id="dob" name="dob">
         </div>
         <div class="form-group">
-            <label for="gen">Gender</label>
+            <label for="gen"><i class="fas fa-venus-mars"></i> Gender</label>
             <select id="gen" name="gen">
-                <option value="">Select</option>
+                <option value="">Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="bg">Blood Group</label>
+            <label for="bg"><i class="fas fa-tint"></i> Blood Group</label>
             <select id="bg" name="bg">
-                <option value="">Select</option>
+                <option value="">Select Blood Group</option>
                 <option value="A+">A+</option>
                 <option value="A-">A-</option>
                 <option value="B+">B+</option>
@@ -56,11 +56,11 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="addr">Address</label>
-            <textarea id="addr" name="addr" rows="3"></textarea>
+            <label for="addr"><i class="fas fa-map-marker-alt"></i> Address</label>
+            <textarea id="addr" name="addr" rows="3" placeholder="Enter your address"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i> Register</button>
     </form>
-    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    <p style="margin-top: 1.5rem; text-align: center;">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
 </div>
 {% endblock %}

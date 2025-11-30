@@ -1,30 +1,33 @@
 {% extends 'base.html' %}
 
-{% block title %}Home - E Hospital{% endblock %}
+{% block title %}Home - Swasthub{% endblock %}
 
 {% block content %}
 <div class="hero">
-    <h1>Welcome to E Hospital</h1>
+    <h1><i class="fas fa-heartbeat"></i> Welcome to Swasthub</h1>
     <p>Your Health, Our Priority</p>
     
     {% if not session.get('uid') %}
         <div class="hero-buttons">
-            <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
-            <a href="{{ url_for('register') }}" class="btn btn-secondary">Register as Patient</a>
+            <a href="{{ url_for('login') }}" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="{{ url_for('register') }}" class="btn btn-secondary"><i class="fas fa-user-plus"></i> Register as Patient</a>
         </div>
     {% endif %}
 </div>
 
 <div class="features">
     <div class="feature-card">
+        <i class="fas fa-user-md"></i>
         <h3>Expert Doctors</h3>
         <p>Our team of experienced doctors are here to help you.</p>
     </div>
     <div class="feature-card">
+        <i class="fas fa-calendar-check"></i>
         <h3>Easy Appointments</h3>
         <p>Book appointments with your preferred doctors easily.</p>
     </div>
     <div class="feature-card">
+        <i class="fas fa-file-medical-alt"></i>
         <h3>Medical Records</h3>
         <p>Access your medical records anytime, anywhere.</p>
     </div>

@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}My Patients - E Hospital{% endblock %}
+{% block title %}My Patients - Swasthub{% endblock %}
 
 {% block content %}
-<h2>My Patients</h2>
+<h2><i class="fas fa-users"></i> My Patients</h2>
 
 <table class="data-table">
     <thead>
@@ -21,18 +21,18 @@
         {% for p in pats %}
         <tr>
             <td>{{ p.id }}</td>
-            <td>{{ p.user.nm }}</td>
+            <td><i class="fas fa-user"></i> {{ p.user.nm }}</td>
             <td>{{ p.user.em }}</td>
             <td>{{ p.user.ph }}</td>
             <td>{{ p.gen }}</td>
-            <td>{{ p.bg }}</td>
+            <td><span class="status status-approved">{{ p.bg }}</span></td>
             <td>
-                <a href="{{ url_for('doc_rec_add', pid=p.id) }}" class="btn btn-small">Add Record</a>
+                <a href="{{ url_for('doc_rec_add', pid=p.id) }}" class="btn btn-small btn-primary"><i class="fas fa-file-medical"></i> Add Record</a>
             </td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="7">No patients found</td>
+            <td colspan="7" style="text-align: center;"><i class="fas fa-info-circle"></i> No patients found</td>
         </tr>
         {% endfor %}
     </tbody>
