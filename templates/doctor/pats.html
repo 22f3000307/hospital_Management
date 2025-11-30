@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}My Patients - E Hospital{% endblock %}
+
+{% block content %}
+<h2>My Patients</h2>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Gender</th>
+            <th>Blood Group</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in pats %}
+        <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.user.nm }}</td>
+            <td>{{ p.user.em }}</td>
+            <td>{{ p.user.ph }}</td>
+            <td>{{ p.gen }}</td>
+            <td>{{ p.bg }}</td>
+            <td>
+                <a href="{{ url_for('doc_rec_add', pid=p.id) }}" class="btn btn-small">Add Record</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="7">No patients found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

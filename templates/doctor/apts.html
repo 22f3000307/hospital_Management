@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}My Appointments - E Hospital{% endblock %}
+
+{% block content %}
+<h2>My Appointments</h2>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Patient</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Notes</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for a in apts %}
+        <tr>
+            <td>{{ a.id }}</td>
+            <td>{{ a.pat.user.nm }}</td>
+            <td>{{ a.dt }}</td>
+            <td>{{ a.tm }}</td>
+            <td>{{ a.nt }}</td>
+            <td><span class="status status-{{ a.st }}">{{ a.st }}</span></td>
+            <td>
+                {% if a.st == 'pending' %}
+                    <a href="{{ url_for('doc_apt_approve', id=a.id) }}" class="btn btn-small">Approve</a>
+                    <a href="{{ url_for('doc_apt_cancel', id=a.id) }}" class="btn btn-small btn-danger">Cancel</a>
+                {% elif a.st == 'approved' %}
+                    <a href="{{ url_for('doc_apt_complete', id=a.id) }}" class="btn btn-small">Complete</a>
+                    <a href="{{ url_for('doc_rec_add', pid=a.pid) }}" class="btn btn-small">Add Record</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="7">No appointments found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

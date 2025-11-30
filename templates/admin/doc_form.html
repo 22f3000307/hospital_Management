@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if doc %}Edit{% else %}Add{% endif %} Doctor - E Hospital{% endblock %}
+
+{% block content %}
+<h2>{% if doc %}Edit{% else %}Add{% endif %} Doctor</h2>
+
+<div class="form-container">
+    <form method="POST">
+        {% if not doc %}
+        <div class="form-group">
+            <label for="un">Username</label>
+            <input type="text" id="un" name="un" required>
+        </div>
+        <div class="form-group">
+            <label for="pw">Password</label>
+            <input type="password" id="pw" name="pw" required>
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <label for="nm">Full Name</label>
+            <input type="text" id="nm" name="nm" value="{{ doc.user.nm if doc else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="em">Email</label>
+            <input type="email" id="em" name="em" value="{{ doc.user.em if doc else '' }}" {% if not doc %}required{% endif %}>
+        </div>
+        <div class="form-group">
+            <label for="ph">Phone</label>
+            <input type="text" id="ph" name="ph" value="{{ doc.user.ph if doc else '' }}">
+        </div>
+        <div class="form-group">
+            <label for="sp">Specialization</label>
+            <input type="text" id="sp" name="sp" value="{{ doc.sp if doc else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="exp">Experience (years)</label>
+            <input type="number" id="exp" name="exp" value="{{ doc.exp if doc else '' }}">
+        </div>
+        <div class="form-group">
+            <label for="fee">Consultation Fee</label>
+            <input type="number" id="fee" name="fee" step="0.01" value="{{ doc.fee if doc else '' }}">
+        </div>
+        <div class="form-group">
+            <label for="av">Availability</label>
+            <input type="text" id="av" name="av" value="{{ doc.av if doc else '' }}" placeholder="e.g., Mon-Fri 9AM-5PM">
+        </div>
+        <button type="submit" class="btn btn-primary">{% if doc %}Update{% else %}Add{% endif %} Doctor</button>
+        <a href="{{ url_for('admin_docs') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

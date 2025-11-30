@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Doctors - E Hospital{% endblock %}
+
+{% block content %}
+<h2>Manage Doctors</h2>
+
+<a href="{{ url_for('admin_doc_add') }}" class="btn btn-primary">Add New Doctor</a>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Specialization</th>
+            <th>Experience</th>
+            <th>Fee</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in docs %}
+        <tr>
+            <td>{{ d.id }}</td>
+            <td>{{ d.user.nm }}</td>
+            <td>{{ d.user.em }}</td>
+            <td>{{ d.sp }}</td>
+            <td>{{ d.exp }} years</td>
+            <td>{{ d.fee }}</td>
+            <td>
+                <a href="{{ url_for('admin_doc_edit', id=d.id) }}" class="btn btn-small">Edit</a>
+                <a href="{{ url_for('admin_doc_delete', id=d.id) }}" class="btn btn-small btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="7">No doctors found</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

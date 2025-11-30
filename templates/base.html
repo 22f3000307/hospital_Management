@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}E Hospital{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="{{ url_for('home') }}">E Hospital</a>
+        </div>
+        <div class="nav-links">
+            {% if session.get('uid') %}
+                <span>Welcome, {{ session.get('nm') }}</span>
+                {% if session.get('rl') == 'admin' %}
+                    <a href="{{ url_for('admin_dash') }}">Dashboard</a>
+                    <a href="{{ url_for('admin_docs') }}">Doctors</a>
+                    <a href="{{ url_for('admin_pats') }}">Patients</a>
+                    <a href="{{ url_for('admin_apts') }}">Appointments</a>
+                {% elif session.get('rl') == 'doctor' %}
+                    <a href="{{ url_for('doc_dash') }}">Dashboard</a>
+                    <a href="{{ url_for('doc_apts') }}">Appointments</a>
+                    <a href="{{ url_for('doc_pats') }}">Patients</a>
+                    <a href="{{ url_for('doc_recs') }}">Records</a>
+                    <a href="{{ url_for('doc_profile') }}">Profile</a>
+                {% elif session.get('rl') == 'patient' %}
+                    <a href="{{ url_for('pat_dash') }}">Dashboard</a>
+                    <a href="{{ url_for('pat_docs') }}">Doctors</a>
+                    <a href="{{ url_for('pat_apts') }}">Appointments</a>
+                    <a href="{{ url_for('pat_recs') }}">Records</a>
+                    <a href="{{ url_for('pat_profile') }}">Profile</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 E Hospital. All rights reserved.</p>
+    </footer>
+</body>
+</html>
