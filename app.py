@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -5,7 +6,7 @@ from functools import wraps
 from datetime import datetime, date
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'ehospital_secret_key_2025'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'ehospital_dev_key')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ehospital.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -150,7 +151,13 @@ def register():
             gen = request.form.get('gen')
             bg = request.form.get('bg')
             addr = request.form.get('addr')
-            p = Pat(uid=u.id, dob=datetime.strptime(dob, '%Y-%m-%d').date() if dob else None, gen=gen, bg=bg, addr=addr)
+            dob_date = None
+            if dob:
+                try:
+                    dob_date = datetime.strptime(dob, '%Y-%m-%d').date()
+                except ValueError:
+                    pass
+            p = Pat(uid=u.id, dob=dob_date, gen=gen, bg=bg, addr=addr)
             db.session.add(p)
             db.session.commit()
         
@@ -197,11 +204,20 @@ def admin_doc_add():
             flash('Username already exists', 'error')
             return redirect(url_for('admin_doc_add'))
         
+        try:
+            exp_val = int(exp) if exp else 0
+        except ValueError:
+            exp_val = 0
+        try:
+            fee_val = float(fee) if fee else 0
+        except ValueError:
+            fee_val = 0
+        
         u = User(un=un, pw=generate_password_hash(pw), nm=nm, em=em, ph=ph, rl='doctor')
         db.session.add(u)
         db.session.commit()
         
-        d = Doc(uid=u.id, sp=sp, exp=int(exp) if exp else 0, fee=float(fee) if fee else 0, av=av)
+        d = Doc(uid=u.id, sp=sp, exp=exp_val, fee=fee_val, av=av)
         db.session.add(d)
         db.session.commit()
         
@@ -218,8 +234,14 @@ def admin_doc_edit(id):
         d.user.em = request.form.get('em')
         d.user.ph = request.form.get('ph')
         d.sp = request.form.get('sp')
-        d.exp = int(request.form.get('exp')) if request.form.get('exp') else 0
-        d.fee = float(request.form.get('fee')) if request.form.get('fee') else 0
+        try:
+            d.exp = int(request.form.get('exp')) if request.form.get('exp') else 0
+        except ValueError:
+            d.exp = 0
+        try:
+            d.fee = float(request.form.get('fee')) if request.form.get('fee') else 0
+        except ValueError:
+            d.fee = 0
         d.av = request.form.get('av')
         db.session.commit()
         flash('Doctor updated successfully', 'success')
@@ -231,6 +253,8 @@ def admin_doc_edit(id):
 def admin_doc_delete(id):
     d = Doc.query.get_or_404(id)
     u = d.user
+    Apt.query.filter_by(did=d.id).delete()
+    Rec.query.filter_by(did=d.id).delete()
     db.session.delete(d)
     db.session.delete(u)
     db.session.commit()
@@ -369,7 +393,12 @@ def pat_apt_book(did):
         dt = request.form.get('dt')
         tm = request.form.get('tm')
         nt = request.form.get('nt')
-        a = Apt(pid=p.id, did=did, dt=datetime.strptime(dt, '%Y-%m-%d').date(), tm=tm, nt=nt)
+        try:
+            dt_date = datetime.strptime(dt, '%Y-%m-%d').date()
+        except (ValueError, TypeError):
+            flash('Invalid date format', 'error')
+            return redirect(url_for('pat_apt_book', did=did))
+        a = Apt(pid=p.id, did=did, dt=dt_date, tm=tm, nt=nt)
         db.session.add(a)
         db.session.commit()
         flash('Appointment booked successfully', 'success')
@@ -411,7 +440,10 @@ def pat_profile():
         p.addr = request.form.get('addr')
         dob = request.form.get('dob')
         if dob:
-            p.dob = datetime.strptime(dob, '%Y-%m-%d').date()
+            try:
+                p.dob = datetime.strptime(dob, '%Y-%m-%d').date()
+            except ValueError:
+                pass
         db.session.commit()
         flash('Profile updated', 'success')
         return redirect(url_for('pat_profile'))

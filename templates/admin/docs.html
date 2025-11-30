@@ -30,7 +30,7 @@
             <td>{{ d.fee }}</td>
             <td>
                 <a href="{{ url_for('admin_doc_edit', id=d.id) }}" class="btn btn-small">Edit</a>
-                <a href="{{ url_for('admin_doc_delete', id=d.id) }}" class="btn btn-small btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                <a href="{{ url_for('admin_doc_delete', id=d.id) }}" class="btn btn-small btn-danger">Delete</a>
             </td>
         </tr>
         {% else %}
