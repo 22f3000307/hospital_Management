@@ -1,31 +1,34 @@
 {% extends 'base.html' %}
 
-{% block title %}Doctor Dashboard - E Hospital{% endblock %}
+{% block title %}Doctor Dashboard - Swasthub{% endblock %}
 
 {% block content %}
-<h2>Doctor Dashboard</h2>
+<h2><i class="fas fa-tachometer-alt"></i> Doctor Dashboard</h2>
 
 <div class="welcome-card">
-    <h3>Welcome, Dr. {{ session.get('nm') }}</h3>
-    <p>Specialization: {{ doc.sp if doc else 'N/A' }}</p>
+    <h3><i class="fas fa-user-md"></i> Welcome, Dr. {{ session.get('nm') }}</h3>
+    <p><i class="fas fa-stethoscope"></i> Specialization: {{ doc.sp if doc else 'N/A' }}</p>
 </div>
 
 <div class="dashboard-stats">
     <div class="stat-card">
+        <i class="fas fa-clock" style="font-size: 2rem; color: var(--wrn); margin-bottom: 0.5rem;"></i>
         <h3>{{ apts|selectattr('st', 'equalto', 'pending')|list|length }}</h3>
         <p>Pending Appointments</p>
     </div>
     <div class="stat-card">
+        <i class="fas fa-check-circle" style="font-size: 2rem; color: var(--clr2); margin-bottom: 0.5rem;"></i>
         <h3>{{ apts|selectattr('st', 'equalto', 'approved')|list|length }}</h3>
         <p>Approved Appointments</p>
     </div>
     <div class="stat-card">
+        <i class="fas fa-calendar-check" style="font-size: 2rem; color: var(--clr1); margin-bottom: 0.5rem;"></i>
         <h3>{{ apts|selectattr('st', 'equalto', 'completed')|list|length }}</h3>
         <p>Completed Appointments</p>
     </div>
 </div>
 
-<h3>Recent Appointments</h3>
+<h3><i class="fas fa-list"></i> Recent Appointments</h3>
 <table class="data-table">
     <thead>
         <tr>
@@ -39,21 +42,21 @@
     <tbody>
         {% for a in apts[:5] %}
         <tr>
-            <td>{{ a.pat.user.nm }}</td>
+            <td><i class="fas fa-user"></i> {{ a.pat.user.nm }}</td>
             <td>{{ a.dt }}</td>
             <td>{{ a.tm }}</td>
             <td><span class="status status-{{ a.st }}">{{ a.st }}</span></td>
             <td>
                 {% if a.st == 'pending' %}
-                    <a href="{{ url_for('doc_apt_approve', id=a.id) }}" class="btn btn-small">Approve</a>
+                    <a href="{{ url_for('doc_apt_approve', id=a.id) }}" class="btn btn-small btn-primary"><i class="fas fa-check"></i> Approve</a>
                 {% elif a.st == 'approved' %}
-                    <a href="{{ url_for('doc_apt_complete', id=a.id) }}" class="btn btn-small">Complete</a>
+                    <a href="{{ url_for('doc_apt_complete', id=a.id) }}" class="btn btn-small btn-primary"><i class="fas fa-check-double"></i> Complete</a>
                 {% endif %}
             </td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="5">No appointments</td>
+            <td colspan="5" style="text-align: center;"><i class="fas fa-info-circle"></i> No appointments</td>
         </tr>
         {% endfor %}
     </tbody>

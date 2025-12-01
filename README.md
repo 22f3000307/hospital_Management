@@ -1,6 +1,6 @@
-# E Hospital
+# Swasthub
 
-A web-based hospital management system built with Flask and Jinja templates.
+A web-based hospital management system built with Flask and Jinja templates. Features a modern, minimalistic UI with green and grey theme colors.
 
 ## Features
 
@@ -27,9 +27,9 @@ A web-based hospital management system built with Flask and Jinja templates.
 
 ## Technology Stack
 - **Backend**: Flask (Python)
-- **Frontend**: Jinja2 Templates
+- **Frontend**: Jinja2 Templates with Font Awesome Icons
 - **Database**: SQLite with SQLAlchemy ORM
-- **Styling**: CSS
+- **Styling**: CSS with responsive design
 
 ## Setup
 
@@ -57,7 +57,7 @@ python app.py
 
 ## Project Structure
 ```
-ehospital/
+swasthub/
 ├── app.py                 # Main application file
 ├── static/
 │   └── style.css          # CSS styles

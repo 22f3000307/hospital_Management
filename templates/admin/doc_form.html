@@ -1,52 +1,74 @@
 {% extends 'base.html' %}
 
-{% block title %}{% if doc %}Edit{% else %}Add{% endif %} Doctor - E Hospital{% endblock %}
+{% block title %}{% if doc %}Edit{% else %}Add{% endif %} Doctor - Swasthub{% endblock %}
 
 {% block content %}
-<h2>{% if doc %}Edit{% else %}Add{% endif %} Doctor</h2>
+<h2><i class="fas fa-user-md"></i> {% if doc %}Edit{% else %}Add{% endif %} Doctor</h2>
 
 <div class="form-container">
     <form method="POST">
         {% if not doc %}
         <div class="form-group">
-            <label for="un">Username</label>
-            <input type="text" id="un" name="un" required>
+            <label for="un"><i class="fas fa-user"></i> Username</label>
+            <input type="text" id="un" name="un" placeholder="Enter username" required>
         </div>
         <div class="form-group">
-            <label for="pw">Password</label>
-            <input type="password" id="pw" name="pw" required>
+            <label for="pw"><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="pw" name="pw" placeholder="Enter password" required>
         </div>
         {% endif %}
         <div class="form-group">
-            <label for="nm">Full Name</label>
-            <input type="text" id="nm" name="nm" value="{{ doc.user.nm if doc else '' }}" required>
+            <label for="nm"><i class="fas fa-id-card"></i> Full Name</label>
+            <input type="text" id="nm" name="nm" value="{{ doc.user.nm if doc else '' }}" placeholder="Enter full name" required>
         </div>
         <div class="form-group">
-            <label for="em">Email</label>
-            <input type="email" id="em" name="em" value="{{ doc.user.em if doc else '' }}" {% if not doc %}required{% endif %}>
+            <label for="em"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="em" name="em" value="{{ doc.user.em if doc else '' }}" placeholder="Enter email" {% if not doc %}required{% endif %}>
         </div>
         <div class="form-group">
-            <label for="ph">Phone</label>
-            <input type="text" id="ph" name="ph" value="{{ doc.user.ph if doc else '' }}">
+            <label for="ph"><i class="fas fa-phone"></i> Phone</label>
+            <input type="text" id="ph" name="ph" value="{{ doc.user.ph if doc else '' }}" placeholder="Enter phone number">
         </div>
         <div class="form-group">
-            <label for="sp">Specialization</label>
-            <input type="text" id="sp" name="sp" value="{{ doc.sp if doc else '' }}" required>
+            <label for="sp"><i class="fas fa-stethoscope"></i> Specialization</label>
+            <select id="sp" name="sp" required>
+                <option value="">Select Specialization</option>
+                <option value="General Medicine" {% if doc and doc.sp == 'General Medicine' %}selected{% endif %}>General Medicine</option>
+                <option value="Cardiology" {% if doc and doc.sp == 'Cardiology' %}selected{% endif %}>Cardiology</option>
+                <option value="Dermatology" {% if doc and doc.sp == 'Dermatology' %}selected{% endif %}>Dermatology</option>
+                <option value="Orthopedics" {% if doc and doc.sp == 'Orthopedics' %}selected{% endif %}>Orthopedics</option>
+                <option value="Pediatrics" {% if doc and doc.sp == 'Pediatrics' %}selected{% endif %}>Pediatrics</option>
+                <option value="Neurology" {% if doc and doc.sp == 'Neurology' %}selected{% endif %}>Neurology</option>
+                <option value="Ophthalmology" {% if doc and doc.sp == 'Ophthalmology' %}selected{% endif %}>Ophthalmology</option>
+                <option value="ENT" {% if doc and doc.sp == 'ENT' %}selected{% endif %}>ENT</option>
+                <option value="Gynecology" {% if doc and doc.sp == 'Gynecology' %}selected{% endif %}>Gynecology</option>
+                <option value="Psychiatry" {% if doc and doc.sp == 'Psychiatry' %}selected{% endif %}>Psychiatry</option>
+                <option value="Dentistry" {% if doc and doc.sp == 'Dentistry' %}selected{% endif %}>Dentistry</option>
+                <option value="Other" {% if doc and doc.sp == 'Other' %}selected{% endif %}>Other</option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="exp">Experience (years)</label>
-            <input type="number" id="exp" name="exp" value="{{ doc.exp if doc else '' }}">
+            <label for="exp"><i class="fas fa-briefcase"></i> Experience (years)</label>
+            <input type="number" id="exp" name="exp" value="{{ doc.exp if doc else '' }}" placeholder="Enter years of experience" min="0">
         </div>
         <div class="form-group">
-            <label for="fee">Consultation Fee</label>
-            <input type="number" id="fee" name="fee" step="0.01" value="{{ doc.fee if doc else '' }}">
+            <label for="fee"><i class="fas fa-dollar-sign"></i> Consultation Fee</label>
+            <input type="number" id="fee" name="fee" step="0.01" value="{{ doc.fee if doc else '' }}" placeholder="Enter consultation fee" min="0">
         </div>
         <div class="form-group">
-            <label for="av">Availability</label>
-            <input type="text" id="av" name="av" value="{{ doc.av if doc else '' }}" placeholder="e.g., Mon-Fri 9AM-5PM">
+            <label for="av"><i class="fas fa-clock"></i> Availability</label>
+            <select id="av" name="av">
+                <option value="">Select Availability</option>
+                <option value="Mon-Fri 9AM-5PM" {% if doc and doc.av == 'Mon-Fri 9AM-5PM' %}selected{% endif %}>Mon-Fri 9AM-5PM</option>
+                <option value="Mon-Sat 9AM-6PM" {% if doc and doc.av == 'Mon-Sat 9AM-6PM' %}selected{% endif %}>Mon-Sat 9AM-6PM</option>
+                <option value="Mon-Fri 10AM-4PM" {% if doc and doc.av == 'Mon-Fri 10AM-4PM' %}selected{% endif %}>Mon-Fri 10AM-4PM</option>
+                <option value="Mon-Wed 9AM-3PM" {% if doc and doc.av == 'Mon-Wed 9AM-3PM' %}selected{% endif %}>Mon-Wed 9AM-3PM</option>
+                <option value="Weekends Only" {% if doc and doc.av == 'Weekends Only' %}selected{% endif %}>Weekends Only</option>
+                <option value="24/7 Available" {% if doc and doc.av == '24/7 Available' %}selected{% endif %}>24/7 Available</option>
+            </select>
         </div>
-        <button type="submit" class="btn btn-primary">{% if doc %}Update{% else %}Add{% endif %} Doctor</button>
-        <a href="{{ url_for('admin_docs') }}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> {% if doc %}Update{% else %}Add{% endif %} Doctor</button>
+        <a href="{{ url_for('admin_docs') }}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancel</a>
     </form>
 </div>
 {% endblock %}

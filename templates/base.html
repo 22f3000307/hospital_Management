@@ -3,39 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}E Hospital{% endblock %}</title>
+    <title>{% block title %}Swasthub{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-brand">
-            <a href="{{ url_for('home') }}">E Hospital</a>
+            <a href="{{ url_for('home') }}"><i class="fas fa-heartbeat"></i> Swasthub</a>
         </div>
-        <div class="nav-links">
+        <button class="nav-toggle" onclick="toggleNav()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links" id="navLinks">
             {% if session.get('uid') %}
-                <span>Welcome, {{ session.get('nm') }}</span>
+                <span class="welcome-text"><i class="fas fa-user-circle"></i> {{ session.get('nm') }}</span>
                 {% if session.get('rl') == 'admin' %}
-                    <a href="{{ url_for('admin_dash') }}">Dashboard</a>
-                    <a href="{{ url_for('admin_docs') }}">Doctors</a>
-                    <a href="{{ url_for('admin_pats') }}">Patients</a>
-                    <a href="{{ url_for('admin_apts') }}">Appointments</a>
+                    <div class="dropdown">
+                        <button class="dropdown-btn"><i class="fas fa-th-large"></i> Menu <i class="fas fa-caret-down"></i></button>
+                        <div class="dropdown-content">
+                            <a href="{{ url_for('admin_dash') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                            <a href="{{ url_for('admin_docs') }}"><i class="fas fa-user-md"></i> Doctors</a>
+                            <a href="{{ url_for('admin_pats') }}"><i class="fas fa-users"></i> Patients</a>
+                            <a href="{{ url_for('admin_apts') }}"><i class="fas fa-calendar-alt"></i> Appointments</a>
+                        </div>
+                    </div>
                 {% elif session.get('rl') == 'doctor' %}
-                    <a href="{{ url_for('doc_dash') }}">Dashboard</a>
-                    <a href="{{ url_for('doc_apts') }}">Appointments</a>
-                    <a href="{{ url_for('doc_pats') }}">Patients</a>
-                    <a href="{{ url_for('doc_recs') }}">Records</a>
-                    <a href="{{ url_for('doc_profile') }}">Profile</a>
+                    <div class="dropdown">
+                        <button class="dropdown-btn"><i class="fas fa-th-large"></i> Menu <i class="fas fa-caret-down"></i></button>
+                        <div class="dropdown-content">
+                            <a href="{{ url_for('doc_dash') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                            <a href="{{ url_for('doc_apts') }}"><i class="fas fa-calendar-check"></i> Appointments</a>
+                            <a href="{{ url_for('doc_pats') }}"><i class="fas fa-users"></i> Patients</a>
+                            <a href="{{ url_for('doc_recs') }}"><i class="fas fa-file-medical"></i> Records</a>
+                            <a href="{{ url_for('doc_profile') }}"><i class="fas fa-user-cog"></i> Profile</a>
+                        </div>
+                    </div>
                 {% elif session.get('rl') == 'patient' %}
-                    <a href="{{ url_for('pat_dash') }}">Dashboard</a>
-                    <a href="{{ url_for('pat_docs') }}">Doctors</a>
-                    <a href="{{ url_for('pat_apts') }}">Appointments</a>
-                    <a href="{{ url_for('pat_recs') }}">Records</a>
-                    <a href="{{ url_for('pat_profile') }}">Profile</a>
+                    <div class="dropdown">
+                        <button class="dropdown-btn"><i class="fas fa-th-large"></i> Menu <i class="fas fa-caret-down"></i></button>
+                        <div class="dropdown-content">
+                            <a href="{{ url_for('pat_dash') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                            <a href="{{ url_for('pat_docs') }}"><i class="fas fa-user-md"></i> Doctors</a>
+                            <a href="{{ url_for('pat_apts') }}"><i class="fas fa-calendar-check"></i> Appointments</a>
+                            <a href="{{ url_for('pat_recs') }}"><i class="fas fa-file-medical-alt"></i> Records</a>
+                            <a href="{{ url_for('pat_profile') }}"><i class="fas fa-user-cog"></i> Profile</a>
+                        </div>
+                    </div>
                 {% endif %}
-                <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="{{ url_for('logout') }}" class="nav-link logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
             {% else %}
-                <a href="{{ url_for('login') }}">Login</a>
-                <a href="{{ url_for('register') }}">Register</a>
+                <a href="{{ url_for('login') }}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="{{ url_for('register') }}" class="nav-link"><i class="fas fa-user-plus"></i> Register</a>
             {% endif %}
         </div>
     </nav>
@@ -44,7 +63,10 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                    <div class="alert alert-{{ category }}">
+                        <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %}"></i>
+                        {{ message }}
+                    </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
@@ -53,7 +75,14 @@
     </div>
     
     <footer>
-        <p>&copy; 2025 E Hospital. All rights reserved.</p>
+        <p><i class="fas fa-heartbeat"></i> &copy; 2025 Swasthub. All rights reserved.</p>
     </footer>
+    
+    <script>
+        function toggleNav() {
+            var nav = document.getElementById('navLinks');
+            nav.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}All Appointments - E Hospital{% endblock %}
+{% block title %}All Appointments - Swasthub{% endblock %}
 
 {% block content %}
-<h2>All Appointments</h2>
+<h2><i class="fas fa-calendar-alt"></i> All Appointments</h2>
 
 <table class="data-table">
     <thead>
@@ -20,15 +20,15 @@
         {% for a in apts %}
         <tr>
             <td>{{ a.id }}</td>
-            <td>{{ a.pat.user.nm }}</td>
-            <td>{{ a.doc.user.nm }}</td>
+            <td><i class="fas fa-user"></i> {{ a.pat.user.nm }}</td>
+            <td><i class="fas fa-user-md"></i> {{ a.doc.user.nm }}</td>
             <td>{{ a.dt }}</td>
             <td>{{ a.tm }}</td>
             <td><span class="status status-{{ a.st }}">{{ a.st }}</span></td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="6">No appointments found</td>
+            <td colspan="6" style="text-align: center;"><i class="fas fa-info-circle"></i> No appointments found</td>
         </tr>
         {% endfor %}
     </tbody>

@@ -1,42 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %}Patient Details - E Hospital{% endblock %}
+{% block title %}Patient Details - Swasthub{% endblock %}
 
 {% block content %}
-<h2>Patient Details</h2>
+<h2><i class="fas fa-user"></i> Patient Details</h2>
 
 <div class="details-card">
     <div class="detail-row">
-        <span class="label">Name:</span>
+        <span class="label"><i class="fas fa-id-card"></i> Name:</span>
         <span class="value">{{ pat.user.nm }}</span>
     </div>
     <div class="detail-row">
-        <span class="label">Email:</span>
+        <span class="label"><i class="fas fa-envelope"></i> Email:</span>
         <span class="value">{{ pat.user.em }}</span>
     </div>
     <div class="detail-row">
-        <span class="label">Phone:</span>
+        <span class="label"><i class="fas fa-phone"></i> Phone:</span>
         <span class="value">{{ pat.user.ph }}</span>
     </div>
     <div class="detail-row">
-        <span class="label">Date of Birth:</span>
+        <span class="label"><i class="fas fa-calendar"></i> Date of Birth:</span>
         <span class="value">{{ pat.dob }}</span>
     </div>
     <div class="detail-row">
-        <span class="label">Gender:</span>
+        <span class="label"><i class="fas fa-venus-mars"></i> Gender:</span>
         <span class="value">{{ pat.gen }}</span>
     </div>
     <div class="detail-row">
-        <span class="label">Blood Group:</span>
+        <span class="label"><i class="fas fa-tint"></i> Blood Group:</span>
         <span class="value">{{ pat.bg }}</span>
     </div>
     <div class="detail-row">
-        <span class="label">Address:</span>
+        <span class="label"><i class="fas fa-map-marker-alt"></i> Address:</span>
         <span class="value">{{ pat.addr }}</span>
     </div>
 </div>
 
-<h3>Appointments</h3>
+<h3><i class="fas fa-calendar-alt"></i> Appointments</h3>
 <table class="data-table">
     <thead>
         <tr>
@@ -51,18 +51,18 @@
         <tr>
             <td>{{ a.dt }}</td>
             <td>{{ a.tm }}</td>
-            <td>{{ a.doc.user.nm }}</td>
-            <td>{{ a.st }}</td>
+            <td><i class="fas fa-user-md"></i> {{ a.doc.user.nm }}</td>
+            <td><span class="status status-{{ a.st }}">{{ a.st }}</span></td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="4">No appointments</td>
+            <td colspan="4" style="text-align: center;"><i class="fas fa-info-circle"></i> No appointments</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<h3>Medical Records</h3>
+<h3><i class="fas fa-file-medical"></i> Medical Records</h3>
 <table class="data-table">
     <thead>
         <tr>
@@ -76,17 +76,17 @@
         {% for r in pat.recs %}
         <tr>
             <td>{{ r.dt }}</td>
-            <td>{{ r.doc.user.nm }}</td>
+            <td><i class="fas fa-user-md"></i> {{ r.doc.user.nm }}</td>
             <td>{{ r.dg }}</td>
             <td>{{ r.pr }}</td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="4">No records</td>
+            <td colspan="4" style="text-align: center;"><i class="fas fa-info-circle"></i> No records</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
-<a href="{{ url_for('admin_pats') }}" class="btn btn-secondary">Back</a>
+<a href="{{ url_for('admin_pats') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back</a>
 {% endblock %}

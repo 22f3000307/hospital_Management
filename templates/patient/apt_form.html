@@ -1,27 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %}Book Appointment - E Hospital{% endblock %}
+{% block title %}Book Appointment - Swasthub{% endblock %}
 
 {% block content %}
-<h2>Book Appointment with Dr. {{ doc.user.nm }}</h2>
+<h2><i class="fas fa-calendar-plus"></i> Book Appointment with Dr. {{ doc.user.nm }}</h2>
 
 <div class="doctor-info">
-    <p><strong>Specialization:</strong> {{ doc.sp }}</p>
-    <p><strong>Experience:</strong> {{ doc.exp }} years</p>
-    <p><strong>Fee:</strong> {{ doc.fee }}</p>
-    <p><strong>Availability:</strong> {{ doc.av }}</p>
+    <p><strong><i class="fas fa-stethoscope"></i> Specialization:</strong> {{ doc.sp }}</p>
+    <p><strong><i class="fas fa-briefcase"></i> Experience:</strong> {{ doc.exp }} years</p>
+    <p><strong><i class="fas fa-dollar-sign"></i> Fee:</strong> {{ doc.fee }}</p>
+    <p><strong><i class="fas fa-clock"></i> Availability:</strong> {{ doc.av }}</p>
 </div>
 
 <div class="form-container">
     <form method="POST">
         <div class="form-group">
-            <label for="dt">Preferred Date</label>
+            <label for="dt"><i class="fas fa-calendar"></i> Preferred Date</label>
             <input type="date" id="dt" name="dt" required>
         </div>
         <div class="form-group">
-            <label for="tm">Preferred Time</label>
+            <label for="tm"><i class="fas fa-clock"></i> Preferred Time</label>
             <select id="tm" name="tm" required>
-                <option value="">Select Time</option>
+                <option value="">Select Time Slot</option>
                 <option value="09:00 AM">09:00 AM</option>
                 <option value="10:00 AM">10:00 AM</option>
                 <option value="11:00 AM">11:00 AM</option>
@@ -33,11 +33,11 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="nt">Notes (Optional)</label>
+            <label for="nt"><i class="fas fa-sticky-note"></i> Notes (Optional)</label>
             <textarea id="nt" name="nt" rows="3" placeholder="Describe your symptoms or reason for visit"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Book Appointment</button>
-        <a href="{{ url_for('pat_docs') }}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Book Appointment</button>
+        <a href="{{ url_for('pat_docs') }}" class="btn btn-secondary"><i class="fas fa-times"></i> Cancel</a>
     </form>
 </div>
 {% endblock %}

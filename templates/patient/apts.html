@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}My Appointments - E Hospital{% endblock %}
+{% block title %}My Appointments - Swasthub{% endblock %}
 
 {% block content %}
-<h2>My Appointments</h2>
+<h2><i class="fas fa-calendar-alt"></i> My Appointments</h2>
 
-<a href="{{ url_for('pat_docs') }}" class="btn btn-primary">Book New Appointment</a>
+<a href="{{ url_for('pat_docs') }}" class="btn btn-primary"><i class="fas fa-calendar-plus"></i> Book New Appointment</a>
 
 <table class="data-table">
     <thead>
@@ -23,20 +23,20 @@
         {% for a in apts %}
         <tr>
             <td>{{ a.id }}</td>
-            <td>Dr. {{ a.doc.user.nm }}</td>
+            <td><i class="fas fa-user-md"></i> Dr. {{ a.doc.user.nm }}</td>
             <td>{{ a.doc.sp }}</td>
             <td>{{ a.dt }}</td>
             <td>{{ a.tm }}</td>
             <td><span class="status status-{{ a.st }}">{{ a.st }}</span></td>
             <td>
                 {% if a.st == 'pending' %}
-                    <a href="{{ url_for('pat_apt_cancel', id=a.id) }}" class="btn btn-small btn-danger">Cancel</a>
+                    <a href="{{ url_for('pat_apt_cancel', id=a.id) }}" class="btn btn-small btn-danger"><i class="fas fa-times"></i> Cancel</a>
                 {% endif %}
             </td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="7">No appointments found</td>
+            <td colspan="7" style="text-align: center;"><i class="fas fa-info-circle"></i> No appointments found</td>
         </tr>
         {% endfor %}
     </tbody>

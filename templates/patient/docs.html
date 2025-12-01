@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}Find Doctors - E Hospital{% endblock %}
+{% block title %}Find Doctors - Swasthub{% endblock %}
 
 {% block content %}
-<h2>Find Doctors</h2>
+<h2><i class="fas fa-user-md"></i> Find Doctors</h2>
 
 <div class="doctor-cards">
     {% for d in docs %}
     <div class="doctor-card">
-        <h3>Dr. {{ d.user.nm }}</h3>
-        <p><strong>Specialization:</strong> {{ d.sp }}</p>
-        <p><strong>Experience:</strong> {{ d.exp }} years</p>
-        <p><strong>Fee:</strong> {{ d.fee }}</p>
-        <p><strong>Availability:</strong> {{ d.av }}</p>
-        <a href="{{ url_for('pat_apt_book', did=d.id) }}" class="btn btn-primary">Book Appointment</a>
+        <h3><i class="fas fa-user-md"></i> Dr. {{ d.user.nm }}</h3>
+        <p><strong><i class="fas fa-stethoscope"></i> Specialization:</strong> {{ d.sp }}</p>
+        <p><strong><i class="fas fa-briefcase"></i> Experience:</strong> {{ d.exp }} years</p>
+        <p><strong><i class="fas fa-dollar-sign"></i> Fee:</strong> {{ d.fee }}</p>
+        <p><strong><i class="fas fa-clock"></i> Availability:</strong> {{ d.av }}</p>
+        <a href="{{ url_for('pat_apt_book', did=d.id) }}" class="btn btn-primary"><i class="fas fa-calendar-plus"></i> Book Appointment</a>
     </div>
     {% else %}
-    <p>No doctors available</p>
+    <p style="text-align: center;"><i class="fas fa-info-circle"></i> No doctors available</p>
     {% endfor %}
 </div>
 {% endblock %}

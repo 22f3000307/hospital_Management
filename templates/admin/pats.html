@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}Manage Patients - E Hospital{% endblock %}
+{% block title %}Manage Patients - Swasthub{% endblock %}
 
 {% block content %}
-<h2>Manage Patients</h2>
+<h2><i class="fas fa-users"></i> Manage Patients</h2>
 
 <table class="data-table">
     <thead>
@@ -21,18 +21,18 @@
         {% for p in pats %}
         <tr>
             <td>{{ p.id }}</td>
-            <td>{{ p.user.nm }}</td>
+            <td><i class="fas fa-user"></i> {{ p.user.nm }}</td>
             <td>{{ p.user.em }}</td>
             <td>{{ p.user.ph }}</td>
             <td>{{ p.gen }}</td>
-            <td>{{ p.bg }}</td>
+            <td><span class="status status-approved">{{ p.bg }}</span></td>
             <td>
-                <a href="{{ url_for('admin_pat_view', id=p.id) }}" class="btn btn-small">View</a>
+                <a href="{{ url_for('admin_pat_view', id=p.id) }}" class="btn btn-small btn-primary"><i class="fas fa-eye"></i> View</a>
             </td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="7">No patients found</td>
+            <td colspan="7" style="text-align: center;"><i class="fas fa-info-circle"></i> No patients found</td>
         </tr>
         {% endfor %}
     </tbody>
